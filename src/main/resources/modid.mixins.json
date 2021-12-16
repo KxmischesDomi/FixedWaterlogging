@@ -18,7 +18,9 @@
 		"InitMixin$WoolCarpetBlockInitMixin",
 		"UpdateShapeMixin",
 		"WaterloggingBlockMixin",
+		"special.CakeBlockMixin",
 		"special.DoorBlockMixin",
+		"special.FlowerPotBlockMixin",
 		"special.PistonBaseBlockMixin",
 		"special.PistonMovingBlockEntityMixin"
 	],
