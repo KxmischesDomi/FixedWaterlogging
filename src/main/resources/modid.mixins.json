@@ -1,0 +1,32 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "de.kxmischesdomi.fixedwaterlogging.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"BlockMixin",
+		"CreateBlockStateDefinitionMixin",
+		"GetStateForPlacementMixin",
+		"InitMixin",
+		"InitMixin$AbstractSkullBlockInitMixin",
+		"InitMixin$BannerBlockInitMixin",
+		"InitMixin$BedBlockInitMixin",
+		"InitMixin$ButtonBlockInitMixin",
+		"InitMixin$CandleCakeBlockInitMixin",
+		"InitMixin$PistonBaseBlockInitMixin",
+		"InitMixin$WeightedPressurePlateBlockInitMixin",
+		"InitMixin$WoolCarpetBlockInitMixin",
+		"UpdateShapeMixin",
+		"WaterloggingBlockMixin",
+		"special.DoorBlockMixin",
+		"special.PistonBaseBlockMixin",
+		"special.PistonMovingBlockEntityMixin"
+	],
+	"server": [
+	],
+	"client": [
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
