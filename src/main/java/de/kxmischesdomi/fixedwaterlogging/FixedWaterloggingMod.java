@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.Block;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
- * @since 1.0.0.0
+ * @since 1.0.0
  */
 public class FixedWaterloggingMod implements ModInitializer {
 

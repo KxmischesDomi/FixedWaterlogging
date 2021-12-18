@@ -10,8 +10,8 @@
 	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/fixed-waterlogging",
-		"sources": "https://github.com/KxmischesDomi/MoreAxolotls",
-		"issues": "https://github.com/KxmischesDomi/MoreAxolotls/issues"
+		"sources": "https://github.com/KxmischesDomi/FixedWaterlogging",
+		"issues": "https://github.com/KxmischesDomi/FixedWaterlogging/issues"
 	},
 
 	"license": "GNU GPLv3",
