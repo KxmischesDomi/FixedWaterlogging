@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  *
  * Overrides the needed methods for all blocks and adds the waterlogged logic if they're an waterloggable block.
  */
-@Mixin(value = { Block.class })
+@Mixin(value = { Block.class }, priority = 10000)
 public abstract class BlockMixin extends BlockBehaviour {
 
 	@Shadow protected abstract void registerDefaultState(BlockState blockState);
@@ -43,7 +43,7 @@ public abstract class BlockMixin extends BlockBehaviour {
 		}
 	}
 
-	@Inject(method = "createBlockStateDefinition", at = @At("HEAD"))
+	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
 			builder.add(BlockStateProperties.WATERLOGGED);
@@ -53,10 +53,10 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "getStateForPlacement", at = @At(value = "RETURN"), cancellable = true)
 	public void getStateForPlacementWaterlogged(BlockPlaceContext blockPlaceContext, CallbackInfoReturnable<BlockState> cir) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
-			boolean water = fluidState.getType() == Fluids.WATER;
 			BlockState returnValue = cir.getReturnValue();
 			if (returnValue != null) {
+				FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
+				boolean water = fluidState.getType() == Fluids.WATER;
 				cir.setReturnValue(returnValue.hasProperty(BlockStateProperties.WATERLOGGED) ? returnValue.setValue(BlockStateProperties.WATERLOGGED, water) : returnValue);
 			}
 		}
