@@ -7,8 +7,6 @@ import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.piston.PistonHeadBlock;
 import org.spongepowered.asm.mixin.Mixin;
 
-
-
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
  * @since 1.0.0
