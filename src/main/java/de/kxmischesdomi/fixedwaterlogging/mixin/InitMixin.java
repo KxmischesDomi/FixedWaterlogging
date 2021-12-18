@@ -88,7 +88,7 @@ public abstract class InitMixin extends Block {
 
 	}
 
-	@Mixin(AbstractBannerBlock.class)
+	@Mixin(value = { WallBannerBlock.class, BannerBlock.class })
 	private abstract static class BannerBlockInitMixin extends Block {
 
 		public BannerBlockInitMixin(Properties properties) {

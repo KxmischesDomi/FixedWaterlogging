@@ -25,16 +25,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 		BedBlock.class, SkullBlock.class, PistonBaseBlock.class, BannerBlock.class, WallBannerBlock.class,
 		AnvilBlock.class, DoorBlock.class, FaceAttachedHorizontalDirectionalBlock.class, WallSkullBlock.class,
 		RedstoneWallTorchBlock.class, EndRodBlock.class, DiodeBlock.class
-})
+}, priority = 10000)
 public class GetStateForPlacementMixin {
 
 	@Inject(method = "getStateForPlacement", at = @At(value = "RETURN"), cancellable = true)
 	public void getStateForPlacementWaterlogged(BlockPlaceContext blockPlaceContext, CallbackInfoReturnable<BlockState> cir) {
 		if (FixedWaterloggingMod.supportsWaterlogged((Block) ((Object) this))) {
-			FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
-			boolean water = fluidState.getType() == Fluids.WATER;
 			BlockState returnValue = cir.getReturnValue();
 			if (returnValue != null) {
+				FluidState fluidState = blockPlaceContext.getLevel().getFluidState(blockPlaceContext.getClickedPos());
+				boolean water = fluidState.getType() == Fluids.WATER;
 				cir.setReturnValue(returnValue.hasProperty(BlockStateProperties.WATERLOGGED) ? returnValue.setValue(BlockStateProperties.WATERLOGGED, water) : returnValue);
 			}
 		}
