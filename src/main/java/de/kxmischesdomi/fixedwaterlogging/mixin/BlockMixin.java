@@ -59,7 +59,10 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			builder.add(BlockStateProperties.WATERLOGGED);
+			try {
+				builder.add(BlockStateProperties.WATERLOGGED);
+			} catch (Exception exception) {
+			}
 		}
 	}
 
