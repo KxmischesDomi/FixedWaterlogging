@@ -33,7 +33,10 @@ public class CreateBlockStateDefinitionMixin {
 	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged((Block) ((Object) this))) {
-			builder.add(BlockStateProperties.WATERLOGGED);
+			try {
+				builder.add(BlockStateProperties.WATERLOGGED);
+			} catch (Exception exception) {
+			}
 		}
 	}
 
