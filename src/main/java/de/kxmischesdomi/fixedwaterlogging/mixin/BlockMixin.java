@@ -41,14 +41,18 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void initWaterlogged(BlockBehaviour.Properties properties, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
+			if (defaultBlockState().hasProperty(BlockStateProperties.WATERLOGGED)) {
+				registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
+			}
 		}
 	}
 
 	@Inject(method = "registerDefaultState", at = @At(value = "TAIL"))
 	public void registerDefaultStateWaterlogged(BlockState blockState, CallbackInfo ci) {
-		if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
-			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
+		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
+			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
+				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
+			}
 		}
 	}
 
