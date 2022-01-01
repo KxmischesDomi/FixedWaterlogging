@@ -56,6 +56,15 @@ public abstract class BlockMixin extends BlockBehaviour {
 		}
 	}
 
+	@Inject(method = "defaultBlockState", at = @At(value = "HEAD"))
+	public void defaultBlockStateWaterlogged(CallbackInfoReturnable<BlockState> cir) {
+		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
+			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED) && defaultBlockState.getValue(BlockStateProperties.WATERLOGGED)) {
+				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
+			}
+		}
+	}
+
 	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
