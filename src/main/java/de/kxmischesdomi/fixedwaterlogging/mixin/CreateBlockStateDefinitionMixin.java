@@ -1,13 +1,11 @@
 package de.kxmischesdomi.fixedwaterlogging.mixin;
 
-import de.kxmischesdomi.fixedwaterlogging.FixedWaterloggingMod;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.piston.MovingPistonBlock;
 import net.minecraft.world.level.block.piston.PistonBaseBlock;
 import net.minecraft.world.level.block.piston.PistonHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -32,12 +30,13 @@ public class CreateBlockStateDefinitionMixin {
 
 	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
-		if (FixedWaterloggingMod.supportsWaterlogged((Block) ((Object) this))) {
-			try {
-				builder.add(BlockStateProperties.WATERLOGGED);
-			} catch (Exception exception) {
-			}
-		}
+		// Isn't needed with the statement library
+//		if (FixedWaterloggingMod.supportsWaterlogged((Block) ((Object) this))) {
+//			try {
+//				builder.add(BlockStateProperties.WATERLOGGED);
+//			} catch (Exception exception) {
+//			}
+//		}
 	}
 
 }

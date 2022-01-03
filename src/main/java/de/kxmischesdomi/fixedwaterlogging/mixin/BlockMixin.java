@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import virtuoel.statement.api.StateRefresher;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -41,38 +42,28 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void initWaterlogged(BlockBehaviour.Properties properties, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState().hasProperty(BlockStateProperties.WATERLOGGED)) {
-				registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
-			}
+			StateRefresher.INSTANCE.addBlockProperty((Block) (Object) this, BlockStateProperties.WATERLOGGED, false);
+			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
 
 	@Inject(method = "registerDefaultState", at = @At(value = "TAIL"))
 	public void registerDefaultStateWaterlogged(BlockState blockState, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
-				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
-			}
-		}
-	}
-
-	@Inject(method = "defaultBlockState", at = @At(value = "HEAD"))
-	public void defaultBlockStateWaterlogged(CallbackInfoReturnable<BlockState> cir) {
-		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED) && defaultBlockState.getValue(BlockStateProperties.WATERLOGGED)) {
-				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
-			}
+			StateRefresher.INSTANCE.addBlockProperty((Block) (Object) this, BlockStateProperties.WATERLOGGED, false);
+			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
 
 	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
 	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
-		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			try {
-				builder.add(BlockStateProperties.WATERLOGGED);
-			} catch (Exception exception) {
-			}
-		}
+		// Isn't needed with the statement library
+//		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
+//			try {
+//				builder.add(BlockStateProperties.WATERLOGGED);
+//			} catch (Exception exception) {
+//			}
+//		}
 	}
 
 	@Inject(method = "getStateForPlacement", at = @At(value = "RETURN"), cancellable = true)
