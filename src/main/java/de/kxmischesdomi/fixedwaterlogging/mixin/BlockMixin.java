@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import virtuoel.statement.api.StateRefresher;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -42,7 +41,6 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void initWaterlogged(BlockBehaviour.Properties properties, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			StateRefresher.INSTANCE.addBlockProperty((Block) (Object) this, BlockStateProperties.WATERLOGGED, false);
 			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
@@ -50,7 +48,6 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "registerDefaultState", at = @At(value = "TAIL"))
 	public void registerDefaultStateWaterlogged(BlockState blockState, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			StateRefresher.INSTANCE.addBlockProperty((Block) (Object) this, BlockStateProperties.WATERLOGGED, false);
 			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
