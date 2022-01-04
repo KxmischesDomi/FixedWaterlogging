@@ -2,11 +2,13 @@ package de.kxmischesdomi.fixedwaterlogging;
 
 import de.kxmischesdomi.fixedwaterlogging.common.FixedWaterlogging;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import virtuoel.statement.api.StateRefresher;
+
+import java.util.Map;
 
 /**
  * @author KxmischesDomi | https://github.com/kxmischesdomi
@@ -16,13 +18,13 @@ public class FixedWaterloggingMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// Didn't work properly on its own
-		RegistryEntryAddedCallback.event(Registry.BLOCK).register(((rawId, id, block) -> {
+
+		for (Map.Entry<ResourceKey<Block>, Block> entry : Registry.BLOCK.entrySet()) {
+			Block block = entry.getValue();
 			if (block instanceof FixedWaterlogging) {
 				StateRefresher.INSTANCE.addBlockProperty(block, BlockStateProperties.WATERLOGGED, false);
-				StateRefresher.INSTANCE.reorderBlockStates();
 			}
-		}));
+		}
 		StateRefresher.INSTANCE.reorderBlockStates();
 	}
 
