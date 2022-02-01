@@ -8,7 +8,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -41,37 +40,14 @@ public abstract class BlockMixin extends BlockBehaviour {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	public void initWaterlogged(BlockBehaviour.Properties properties, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState().hasProperty(BlockStateProperties.WATERLOGGED)) {
-				registerDefaultState(defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false));
-			}
+			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
 
 	@Inject(method = "registerDefaultState", at = @At(value = "TAIL"))
 	public void registerDefaultStateWaterlogged(BlockState blockState, CallbackInfo ci) {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED)) {
-				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
-			}
-		}
-	}
-
-	@Inject(method = "defaultBlockState", at = @At(value = "HEAD"))
-	public void defaultBlockStateWaterlogged(CallbackInfoReturnable<BlockState> cir) {
-		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			if (defaultBlockState.hasProperty(BlockStateProperties.WATERLOGGED) && defaultBlockState.getValue(BlockStateProperties.WATERLOGGED)) {
-				defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false);
-			}
-		}
-	}
-
-	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
-	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
-		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-			try {
-				builder.add(BlockStateProperties.WATERLOGGED);
-			} catch (Exception exception) {
-			}
+			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
 	}
 
