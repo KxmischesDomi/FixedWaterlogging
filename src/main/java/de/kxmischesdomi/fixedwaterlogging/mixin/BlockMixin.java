@@ -8,7 +8,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -50,17 +49,6 @@ public abstract class BlockMixin extends BlockBehaviour {
 		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
 			defaultBlockState = defaultBlockState.setValue(BlockStateProperties.WATERLOGGED, false); // defaultstate doesn't work properly without this additional set
 		}
-	}
-
-	@Inject(method = "createBlockStateDefinition", at = @At("TAIL"))
-	public void createBlockStateDefinitionWaterlogged(StateDefinition.Builder<Block, BlockState> builder, CallbackInfo ci) {
-		// Isn't needed with the statement library
-//		if (FixedWaterloggingMod.supportsWaterlogged(getInstance())) {
-//			try {
-//				builder.add(BlockStateProperties.WATERLOGGED);
-//			} catch (Exception exception) {
-//			}
-//		}
 	}
 
 	@Inject(method = "getStateForPlacement", at = @At(value = "RETURN"), cancellable = true)
